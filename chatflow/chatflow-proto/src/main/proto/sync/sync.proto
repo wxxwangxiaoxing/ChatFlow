@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+package chatflow.sync;
+
+import "common/common.proto";
+
+option java_multiple_files = true;
+option java_package = "com.chatflow.proto.sync";
+
+// 多端增量同步契约（架构文档 7.1，ADR-004）：
+// syncKey 为账号级全局版本号，hasMore=true 时循环拉取直到收敛。
+service SyncRpc {
+  rpc Pull (SyncRequest) returns (SyncResponse);
+}
+
+message SyncRequest {
+  string sync_key = 1;           // 客户端当前已同步到的版本号
+  int32 count = 2;               // 单页条数上限
+}
+
+// 会话摘要（未读数为异步校准字段，允许短暂不一致）
+message ConversationSummary {
+  string conversation_id = 1;
+  chatflow.common.ConvType conv_type = 2;
+  int64 last_msg_seq = 3;
+  int64 last_msg_time_ms = 4;
+  int32 unread_count = 5;
+}
+
+message SyncResponse {
+  string next_sync_key = 1;      // 新版本号，客户端持久化
+  bool has_more = 2;
+  repeated ConversationSummary conversations = 3;
+  repeated chatflow.common.MsgEntity messages = 4;
+}

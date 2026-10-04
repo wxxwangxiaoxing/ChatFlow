@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: chatflow-message
+
+chatflow:
+  env: dev
+
+server:
+  port: 8085
+
+# Seq 发号（工程结构文档 16 / ADR-002）：
+# Redis 原子 INCR conv:seq:{convId}，批量预取（步长 1000）+ 号段落库兜底，宕机不回退。
+chatflow-message:
+  seq:
+    prefetch-step: 1000
+  # 敏感词同步过滤（工程结构文档 15.4，架构文档 15）
+  risk:
+    sensitive-word-enabled: true
+
+# Kafka 生产者（工程结构文档 29.4）
+spring.kafka:
+  producer:
+    acks: all
+    properties:
+      min.insync.replicas: 2

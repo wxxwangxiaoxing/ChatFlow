@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.chatflow</groupId>
+        <artifactId>chatflow-parent</artifactId>
+        <version>${revision}</version>
+    </parent>
+
+    <artifactId>chatflow-infrastructure</artifactId>
+
+    <name>chatflow-infrastructure</name>
+    <description>基础设施封装：Redis 键名收口 / Kafka Topic 收口 / 分布式 ID。严禁包含业务逻辑</description>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.chatflow</groupId>
+                <artifactId>chatflow-bom</artifactId>
+                <version>${revision}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.chatflow</groupId>
+            <artifactId>chatflow-common</artifactId>
+        </dependency>
+
+        <!-- 骨架期仅引入 redis / kafka 客户端抽象所需的最小依赖；
+             DataSource / MyBatis / ES / Nacos 等在对应能力落地时再引入 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.kafka</groupId>
+            <artifactId>spring-kafka</artifactId>
+        </dependency>
+    </dependencies>
+</project>

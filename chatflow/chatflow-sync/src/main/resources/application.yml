@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: chatflow-sync
+
+chatflow:
+  env: dev
+
+server:
+  port: 8086

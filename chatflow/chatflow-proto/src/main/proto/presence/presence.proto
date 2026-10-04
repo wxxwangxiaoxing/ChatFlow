@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package chatflow.presence;
+
+option java_multiple_files = true;
+option java_package = "com.chatflow.proto.presence";
+
+// 在线状态契约（架构文档 9，ADR-005）：
+// Presence 允许短暂不一致，服务异常时降级返回 PRESENCE_UNKNOWN，不影响收发链路。
+service PresenceRpc {
+  rpc GetOnlineStates (GetOnlineStatesRequest) returns (GetOnlineStatesResponse);
+}
+
+enum PresenceState {
+  PRESENCE_UNKNOWN = 0;  // 降级/未知的缺省值（proto3 枚举零值语义）
+  PRESENCE_ONLINE = 1;
+  PRESENCE_OFFLINE = 2;
+}
+
+message OnlineState {
+  string user_id = 1;
+  PresenceState state = 2;
+  int64 last_active_at_ms = 3;   // 用于展示"3 分钟前在线"
+}
+
+message GetOnlineStatesRequest {
+  repeated string user_ids = 1;
+}
+
+message GetOnlineStatesResponse {
+  repeated OnlineState states = 1;
+}

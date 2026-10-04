@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.chatflow</groupId>
+    <artifactId>chatflow-parent</artifactId>
+    <version>${revision}</version>
+    <packaging>pom</packaging>
+
+    <name>chatflow-parent</name>
+    <description>IM 即时聊天系统（ChatFlow）— 后端 Maven 多模块根工程</description>
+
+    <!-- ============================================================
+         模块聚合（对应《后端工程结构设计文档》第 38 章：第一阶段 13 模块）
+         基础层 4：bom / common / proto / infrastructure
+         接入层 1：gateway
+         核心业务层 8：auth / user / relation / conversation /
+                      message / sync / group / presence
+         平台能力层与 job（push/file/search/robot/call/audit/admin/job）
+         暂不建空模块，待对应功能进入迭代时再创建
+         ============================================================ -->
+    <modules>
+        <module>chatflow-bom</module>
+        <module>chatflow-common</module>
+        <module>chatflow-proto</module>
+        <module>chatflow-infrastructure</module>
+
+        <module>chatflow-gateway</module>
+        <module>chatflow-auth</module>
+        <module>chatflow-user</module>
+        <module>chatflow-relation</module>
+        <module>chatflow-conversation</module>
+        <module>chatflow-message</module>
+        <module>chatflow-sync</module>
+        <module>chatflow-group</module>
+        <module>chatflow-presence</module>
+    </modules>
+
+    <properties>
+        <!-- CI-friendly 版本：全工程统一，改版本只动这一处 -->
+        <revision>1.0.0-SNAPSHOT</revision>
+
+        <!-- 文档基线为 Java 21；本机当前为 JDK 17，先按 17 构建，升级只需改本行 -->
+        <java.version>17</java.version>
+        <maven.compiler.release>17</maven.compiler.release>
+
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+        <!-- 依赖版本（BOM 中集中引用） -->
+        <spring-boot.version>3.3.5</spring-boot.version>
+        <grpc.version>1.65.1</grpc.version>
+        <protobuf.version>3.25.5</protobuf.version>
+
+        <!-- 插件版本 -->
+        <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
+        <flatten-maven-plugin.version>1.6.0</flatten-maven-plugin.version>
+        <protobuf-maven-plugin.version>0.6.1</protobuf-maven-plugin.version>
+        <os-maven-plugin.version>1.7.1</os-maven-plugin.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- 根工程自身不导入 chatflow-bom：各子模块各自导入，
+                 避免 reactor 首次构建时 BOM 尚未 install 导致解析失败 -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring-boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>${maven-compiler-plugin.version}</version>
+                </plugin>
+
+                <!-- CI-friendly ${revision} 落地：install/deploy 时把
+                     ${revision} 解析为字面量写入构件 POM -->
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>flatten-maven-plugin</artifactId>
+                    <version>${flatten-maven-plugin.version}</version>
+                    <configuration>
+                        <flattenMode>resolveCiFriendliesOnly</flattenMode>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <id>flatten</id>
+                            <phase>process-resources</phase>
+                            <goals>
+                                <goal>flatten</goal>
+                            </goals>
+                        </execution>
+                        <execution>
+                            <id>flatten-clean</id>
+                            <phase>clean</phase>
+                            <goals>
+                                <goal>clean</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <!-- 可执行服务统一 repackage -->
+                <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                    <version>${spring-boot.version}</version>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>repackage</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+
+        <plugins>
+            <!-- 全模块继承：revision 解析 + 编译编码 -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>flatten-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <release>${maven.compiler.release}</release>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.chatflow</groupId>
+        <artifactId>chatflow-parent</artifactId>
+        <version>${revision}</version>
+    </parent>
+
+    <artifactId>chatflow-bom</artifactId>
+    <packaging>pom</packaging>
+
+    <name>chatflow-bom</name>
+    <description>依赖版本统一：所有业务模块通过 import 本 BOM 获取版本，禁止自带 version 标签</description>
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- ======== 三方 BOM 导入 ======== -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring-boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>io.grpc</groupId>
+                <artifactId>grpc-bom</artifactId>
+                <version>${grpc.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.google.protobuf</groupId>
+                <artifactId>protobuf-bom</artifactId>
+                <version>${protobuf.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.testcontainers</groupId>
+                <artifactId>testcontainers-bom</artifactId>
+                <version>1.20.3</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <!-- ======== 项目内模块（${project.version} 会被插值解析） ======== -->
+            <dependency>
+                <groupId>com.chatflow</groupId>
+                <artifactId>chatflow-common</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.chatflow</groupId>
+                <artifactId>chatflow-proto</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.chatflow</groupId>
+                <artifactId>chatflow-infrastructure</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <!-- ======== Spring Boot BOM 未覆盖的三方 ======== -->
+            <!-- grpc 生成代码使用的 @Generated 注解（provided，不进运行时） -->
+            <dependency>
+                <groupId>org.apache.tomcat</groupId>
+                <artifactId>annotations-api</artifactId>
+                <version>6.0.53</version>
+            </dependency>
+            <!-- 后续 DAO 层接入时使用，先锁版本 -->
+            <dependency>
+                <groupId>org.mybatis.spring.boot</groupId>
+                <artifactId>mybatis-spring-boot-starter</artifactId>
+                <version>3.0.4</version>
+            </dependency>
+            <dependency>
+                <groupId>org.redisson</groupId>
+                <artifactId>redisson</artifactId>
+                <version>3.34.1</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+</project>

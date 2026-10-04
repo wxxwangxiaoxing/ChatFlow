@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.chatflow</groupId>
+        <artifactId>chatflow-parent</artifactId>
+        <version>${revision}</version>
+    </parent>
+
+    <artifactId>chatflow-common</artifactId>
+
+    <name>chatflow-common</name>
+    <description>公共能力：统一返回 / 错误码 / 公共异常 / 工具类。纯 JDK，不依赖任何中间件，禁止业务语义</description>
+
+    <dependencies>
+        <!-- 刻意保持零依赖（工程结构文档 6.4：common 不允许依赖 infrastructure/proto 之外模块，
+             且不得包含业务语义）。Jackson 等序列化能力由 infrastructure 封装后按需引入。 -->
+    </dependencies>
+</project>

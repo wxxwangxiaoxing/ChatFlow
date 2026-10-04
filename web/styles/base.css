@@ -1,0 +1,185 @@
+/* ==========================================================================
+   ChatFlow 基础样式 —— 重置、排版、通用控件
+   依赖 tokens.css，须在其后引入
+   ========================================================================== */
+/* ==========================================================================
+   ③ 基础重置与排版
+   ========================================================================== */
+*,*::before,*::after{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family:var(--cf-font-sans);
+  font-size:14px; line-height:1.6; letter-spacing:0;   /* 中文零字距 */
+  color:var(--cf-text-primary);
+  background:var(--cf-canvas);
+  -webkit-font-smoothing:antialiased;
+}
+button{font-family:inherit;border:0;background:none;cursor:pointer;color:inherit;padding:0}
+a{color:var(--cf-primary);text-decoration:none}
+a:hover{text-decoration:underline}
+:focus-visible{outline:none;box-shadow:0 0 0 3px var(--cf-focus-ring);border-radius:var(--cf-radius-xs)}
+.num{font-variant-numeric:tabular-nums}   /* 数字等宽，防列表抖动 */
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.truncate{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+.scroll{overflow-y:auto;scrollbar-width:thin;scrollbar-color:var(--cf-scrollbar-thumb) transparent}
+.scroll::-webkit-scrollbar{width:8px;height:8px}
+.scroll::-webkit-scrollbar-thumb{background:var(--cf-scrollbar-thumb);border-radius:4px}
+.scroll::-webkit-scrollbar-thumb:hover{background:var(--cf-scrollbar-thumb-hover)}
+
+/* ==========================================================================
+   ④ 通用控件
+   ========================================================================== */
+.cf-btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:var(--cf-space-2);
+  height:32px;padding:0 var(--cf-space-4);
+  border-radius:var(--cf-radius-sm);
+  font-size:14px;font-weight:500;line-height:1;white-space:nowrap;
+  transition:background-color var(--cf-duration-instant) var(--cf-ease-standard),
+             border-color var(--cf-duration-instant) var(--cf-ease-standard);
+}
+.cf-btn--primary{background:var(--cf-primary);color:var(--cf-text-on-brand)}
+.cf-btn--primary:hover{background:var(--cf-primary-hover)}
+.cf-btn--primary:active{background:var(--cf-primary-active)}
+.cf-btn--primary:disabled{background:var(--cf-surface-3);color:var(--cf-text-disabled);cursor:not-allowed}
+.cf-btn--secondary{background:var(--cf-surface-1);color:var(--cf-text-primary);border:1px solid var(--cf-hairline-strong)}
+.cf-btn--secondary:hover{background:var(--cf-surface-2)}
+.cf-btn--ghost{background:transparent;color:var(--cf-text-secondary);padding:0 var(--cf-space-3)}
+.cf-btn--ghost:hover{background:var(--cf-surface-2);color:var(--cf-text-primary)}
+.cf-btn--danger{background:var(--cf-danger-indicator);color:#fff}
+.cf-btn--danger:hover{filter:brightness(.94)}
+.cf-btn--sm{height:28px;padding:0 var(--cf-space-3);font-size:13px}
+/* 权限不足时的禁用态（配合 perm-note 使用） */
+.cf-btn:disabled{cursor:not-allowed;opacity:.5}
+.cf-switch:disabled{cursor:not-allowed;opacity:.5}
+.cf-btn--block{width:100%}
+.cf-icon-btn{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:40px;height:40px;border-radius:var(--cf-radius-sm);
+  color:var(--cf-text-secondary);position:relative;flex:none;
+  transition:background-color var(--cf-duration-instant) var(--cf-ease-standard),
+             color var(--cf-duration-instant) var(--cf-ease-standard);
+}
+.cf-icon-btn svg{width:20px;height:20px}
+.cf-icon-btn:hover{background:var(--cf-surface-2);color:var(--cf-text-primary)}
+.cf-icon-btn--sm{width:32px;height:32px}
+.cf-icon-btn--sm svg{width:16px;height:16px}
+.cf-icon-btn.is-on{background:var(--cf-primary-subtle);color:var(--cf-primary)}
+
+.cf-badge{
+  display:inline-flex;align-items:center;justify-content:center;
+  min-width:18px;height:18px;padding:0 5px;border-radius:var(--cf-radius-pill);
+  background:var(--cf-attention);color:#fff;font-size:11px;line-height:1;font-weight:500;
+}
+.cf-badge--muted{background:var(--cf-badge-muted-bg)}
+.cf-tag{
+  display:inline-flex;align-items:center;height:20px;padding:0 var(--cf-space-2);
+  border-radius:var(--cf-radius-xs);background:var(--cf-surface-2);
+  color:var(--cf-text-secondary);font-size:11px;line-height:1;
+}
+.cf-tag--brand{background:var(--cf-primary-subtle);color:var(--cf-primary)}
+
+.cf-avatar{
+  position:relative;flex:none;border-radius:var(--cf-radius-pill);
+  display:flex;align-items:center;justify-content:center;
+  color:#fff;font-weight:500;overflow:visible;
+}
+.cf-avatar--24{width:24px;height:24px;font-size:11px}
+.cf-avatar--32{width:32px;height:32px;font-size:13px}
+.cf-avatar--40{width:40px;height:40px;font-size:15px}
+.cf-avatar--48{width:48px;height:48px;font-size:17px}
+.cf-avatar--64{width:64px;height:64px;font-size:22px}
+.cf-avatar--group{border-radius:var(--cf-radius-md);overflow:hidden;
+  display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:1px;background:var(--cf-surface-1)}
+.cf-avatar--group span{display:block;width:100%;height:100%}
+.cf-avatar--square{border-radius:var(--cf-radius-md)}
+.cf-presence{
+  position:absolute;right:-1px;bottom:-1px;width:10px;height:10px;
+  border-radius:var(--cf-radius-pill);background:var(--cf-presence-online);
+  box-shadow:0 0 0 2px var(--cf-online-dot-ring);
+}
+.cf-presence--off{background:var(--cf-presence-off)}
+
+.cf-input{
+  display:flex;align-items:center;gap:var(--cf-space-2);
+  height:32px;padding:0 var(--cf-space-3);
+  background:var(--cf-surface-2);border:1px solid transparent;
+  border-radius:var(--cf-radius-sm);
+  transition:border-color var(--cf-duration-instant) var(--cf-ease-standard),
+             background-color var(--cf-duration-instant) var(--cf-ease-standard);
+}
+.cf-input:focus-within{background:var(--cf-surface-1);border-color:var(--cf-primary);box-shadow:0 0 0 3px var(--cf-focus-ring)}
+.cf-input svg{width:16px;height:16px;color:var(--cf-text-tertiary);flex:none}
+.cf-input input{flex:1;min-width:0;border:0;background:none;outline:none;font:inherit;color:var(--cf-text-primary)}
+.cf-input input::placeholder{color:var(--cf-text-disabled)}
+
+.cf-tab{
+  height:28px;padding:0 var(--cf-space-3);border-radius:var(--cf-radius-sm);
+  font-size:13px;color:var(--cf-text-secondary);white-space:nowrap;
+  transition:background-color var(--cf-duration-instant) var(--cf-ease-standard),
+             color var(--cf-duration-instant) var(--cf-ease-standard);
+}
+.cf-tab:hover{background:var(--cf-surface-2)}
+.cf-tab.is-active{background:var(--cf-primary-subtle);color:var(--cf-primary);font-weight:500}
+
+/* 开关 */
+.cf-switch{
+  position:relative;flex:none;width:36px;height:20px;border-radius:var(--cf-radius-pill);
+  background:var(--cf-surface-3);
+  transition:background-color var(--cf-duration-fast) var(--cf-ease-standard);
+}
+.cf-switch::after{
+  content:"";position:absolute;top:2px;left:2px;width:16px;height:16px;border-radius:50%;
+  background:var(--cf-surface-1);box-shadow:var(--cf-shadow-xs);
+  transition:transform var(--cf-duration-fast) var(--cf-ease-standard);
+}
+.cf-switch.is-on{background:var(--cf-primary)}
+.cf-switch.is-on::after{transform:translateX(16px)}
+
+/* 分段控件 */
+.cf-segment{display:inline-flex;padding:2px;border-radius:var(--cf-radius-sm);background:var(--cf-surface-2)}
+.cf-segment button{
+  height:26px;padding:0 var(--cf-space-3);border-radius:var(--cf-radius-xs);
+  font-size:13px;color:var(--cf-text-secondary);white-space:nowrap;
+  transition:background-color var(--cf-duration-instant) var(--cf-ease-standard),
+             color var(--cf-duration-instant) var(--cf-ease-standard);
+}
+.cf-segment button.is-active{
+  background:var(--cf-surface-1);color:var(--cf-text-primary);font-weight:500;
+  box-shadow:var(--cf-shadow-xs);
+}
+
+/* 空状态 */
+.empty{
+  flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:var(--cf-space-3);padding:var(--cf-space-10);text-align:center;
+}
+.empty__icon{
+  width:64px;height:64px;border-radius:var(--cf-radius-xl);
+  display:flex;align-items:center;justify-content:center;
+  background:var(--cf-surface-2);color:var(--cf-text-tertiary);margin-bottom:var(--cf-space-2);
+}
+.empty__icon svg{width:28px;height:28px}
+.empty h2{margin:0;font-size:28px;font-weight:500;line-height:1.25;letter-spacing:-.02em}
+.empty p{margin:0;font-size:14px;line-height:1.6;color:var(--cf-text-tertiary);max-width:340px}
+
+/* ---------- 轻反馈 Toast（主应用与认证页共用） ---------- */
+.toast{
+  position:fixed;right:var(--cf-space-6);bottom:var(--cf-space-6);
+  display:flex;align-items:center;gap:var(--cf-space-2);
+  padding:10px 14px;border-radius:var(--cf-radius-md);
+  background:var(--cf-toast-bg);color:var(--cf-toast-fg);
+  box-shadow:var(--cf-shadow-lg);font-size:13px;line-height:1.5;
+  z-index:var(--cf-z-toast);max-width:min(420px,calc(100vw - 32px));
+  opacity:0;transform:translateY(8px);pointer-events:none;
+  transition:opacity var(--cf-duration-base) var(--cf-ease-standard),
+             transform var(--cf-duration-base) var(--cf-ease-decelerate);
+}
+.toast.is-show{opacity:1;transform:none}
+
+/* ---------- 触摸设备：共享控件的命中区放大到 44px ---------- */
+@media (pointer:coarse){
+  .cf-icon-btn{width:44px;height:44px}
+  .cf-btn{height:40px}
+}

@@ -1,0 +1,45 @@
+syntax = "proto3";
+
+package chatflow.common;
+
+option java_multiple_files = true;
+option java_package = "com.chatflow.proto.common";
+
+// 契约规约（工程结构文档 7.3）：
+// 1) 字段编号永不复用，删除字段用 reserved；
+// 2) 新增字段一律视为 optional（proto3 默认），保证端云 N-1 兼容；
+// 3) 禁止传递 Java 类型，只用跨语言基础类型与嵌套 message。
+
+// 终端平台类型（架构文档 4.1）
+enum Platform {
+  PLATFORM_UNKNOWN = 0;
+  PLATFORM_WEB = 1;
+  PLATFORM_IOS = 2;
+  PLATFORM_ANDROID = 3;
+  PLATFORM_WINDOWS = 4;
+  PLATFORM_MACOS = 5;
+  PLATFORM_MINI_PROGRAM = 6;
+}
+
+// 会话类型（数据库文档 im_conversation.conv_type）
+enum ConvType {
+  CONV_UNKNOWN = 0;
+  CONV_C2C = 1;   // 单聊
+  CONV_GROUP = 2; // 群聊
+}
+
+// 消息核心模型（工程结构文档 9）：
+// 核心链路只关心 messageId/conversationId/seq/senderId/msgType/bizType/content，
+// 不解析 content —— 新增消息类型零改动核心链路。
+message MsgEntity {
+  string server_msg_id = 1;
+  string client_msg_id = 2;
+  string conversation_id = 3;
+  int64 seq = 4;
+  string sender_id = 5;
+  int32 msg_type = 6;      // 1文本 2图片 3语音 4视频 5文件 6系统 7卡片 8自定义
+  string biz_type = 7;     // 业务扩展类型，核心服务透传
+  bytes content = 8;       // 消息体（端侧编码，服务端不解析）
+  int64 client_sent_at_ms = 9;
+  int64 server_recv_at_ms = 10;
+}

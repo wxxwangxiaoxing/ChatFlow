@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.chatflow</groupId>
+        <artifactId>chatflow-parent</artifactId>
+        <version>${revision}</version>
+    </parent>
+
+    <artifactId>chatflow-relation</artifactId>
+
+    <name>chatflow-relation</name>
+    <description>关系链服务：好友 / 好友申请 / 黑名单 / 联系人（工程结构文档 13）</description>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.chatflow</groupId>
+                <artifactId>chatflow-bom</artifactId>
+                <version>${revision}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.chatflow</groupId>
+            <artifactId>chatflow-common</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.chatflow</groupId>
+            <artifactId>chatflow-infrastructure</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.chatflow</groupId>
+            <artifactId>chatflow-proto</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+</project>

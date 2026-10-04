@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ChatFlow · 用户端 Web 原型</title>
+<link rel="stylesheet" href="styles/tokens.css">
+<link rel="stylesheet" href="styles/base.css">
+<link rel="stylesheet" href="styles/app.css">
+
+</head>
+<body>
+
+<h2 class="sr">ChatFlow 用户端 Web 原型：消息、联系人、文件、收藏、设置五个视图</h2>
+
+<!-- 原型控制条：仅用于评审，不属于产品界面 -->
+<div class="proto">
+  <span class="proto__label">原型控制</span>
+  <button class="proto__btn" data-proto="detail">详情面板</button>
+  <button class="proto__btn" data-proto="empty">空状态</button>
+  <button class="proto__btn" data-proto="dense">紧凑密度</button>
+  <button class="proto__btn" data-proto="dark">深色主题</button>
+  <span class="proto__sep"></span>
+  <span class="proto__label">我在本群</span>
+  <button class="proto__btn" data-role="1">普通成员</button>
+  <button class="proto__btn" data-role="2">群管理员</button>
+  <button class="proto__btn" data-role="3">群主</button>
+</div>
+
+<div class="app" id="app" data-view="chat" data-mobile="list">
+  <nav class="rail" id="rail" aria-label="主导航"></nav>
+  <aside class="list-pane" id="listPane" aria-label="列表"></aside>
+  <main class="main-pane" id="mainPane" aria-label="主内容"></main>
+  <aside class="detail" id="detailPane" aria-label="详情"></aside>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="scripts/app.js"></script>
+</body>
+</html>

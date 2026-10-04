@@ -1,0 +1,4 @@
+# dev 环境覆盖项
+logging:
+  level:
+    com.chatflow: DEBUG

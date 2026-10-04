@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: chatflow-user
+
+chatflow:
+  env: dev
+
+server:
+  port: 8082

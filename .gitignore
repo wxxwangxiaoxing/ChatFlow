@@ -1,24 +1,102 @@
-# Compiled class file
+# =============================================================================
+#  ChatFlow — Git 忽略规则
+# -----------------------------------------------------------------------------
+#  原则：只提交「人写的源」，不提交「机器生成的产物」。
+#
+#  背景：本仓库 528.4MB 中有 528.3MB 是 Maven target/ 构建产物（占 96.6%），
+#        必须排除；排除后待跟踪文件仅 69 个 / 0.9MB。
+#
+#  注意：.workbuddy-ai/memory/ 是项目工作日志（含缺陷复盘与决策记录），
+#        属于「人写的源」，刻意不排除。
+#
+#  来源：本文件合并了 GitHub 建仓时自动生成的 Java 模板 .gitignore
+#        （*.ctxt / .mtj.tmp/ / *.nar / *.ear / *.tar.gz / *.rar 等条目），
+#        避免在与远端 Initial commit 合流时丢失原模板内容。
+# =============================================================================
+
+# ---------- Java / Maven ----------
+target/
+build/
+out/
+bin/
 *.class
-
-# Log file
-*.log
-
-# BlueJ files
-*.ctxt
-
-# Mobile Tools for Java (J2ME)
-.mtj.tmp/
-
-# Package Files #
 *.jar
-*.war
+!.mvn/wrapper/maven-wrapper.jar
+
+# flatten-maven-plugin 在 process-resources 阶段生成的派生 POM（每个模块一个）
+.flattened-pom.xml
+dependency-reduced-pom.xml
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+release.properties
+
+# JVM 崩溃日志
+hs_err_pid*
+replay_pid*
+
+# ---------- Java 构建/打包产物（GitHub Java 模板并入） ----------
 *.nar
 *.ear
-*.zip
 *.tar.gz
 *.rar
 
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
-hs_err_pid*
-replay_pid*
+# ---------- Java 教学工具产物（GitHub Java 模板并入） ----------
+*.ctxt
+.mtj.tmp/
+
+# ---------- IDE / 编辑器 ----------
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/
+.settings/
+.classpath
+.project
+.factorypath
+nbproject/private/
+*.sublime-workspace
+*.swp
+*~
+
+# ---------- Web / Node（当前无构建步骤，为将来引入预留） ----------
+node_modules/
+dist/
+.cache/
+.parcel-cache/
+.vite/
+
+# ---------- 日志与临时文件 ----------
+*.log
+*.tmp
+*.temp
+*.bak
+*.orig
+*.rej
+Temp/
+temp/
+tmp/
+
+# ---------- 操作系统 ----------
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+.DS_Store
+._*
+
+# ---------- 密钥与本地环境 ----------
+# PRD 8.2 / 后端工程结构文档 32.3：连接串与密钥禁止提交 Git，由 Nacos 加密 + KMS 下发
+.env
+.env.*
+*.local
+*.pem
+*.key
+*.p12
+*.jks
+secrets/
+
+# ---------- 运行期数据 ----------
+logs/
+data/

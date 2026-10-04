@@ -1,0 +1,269 @@
+/* ==========================================================================
+   ChatFlow 认证流程样式 —— 登录 / 注册 / 找回密码
+   依赖 tokens.css + base.css
+   --------------------------------------------------------------------------
+   版式：整幅柔和底 + 居中卡片，无左侧品牌栏。
+
+   与主应用（index.html）的差异，均为有意为之：
+   1. 表单控件高度 44px（主应用 32px）。认证是低频、高代价表单，
+      更大的命中区能显著降低输入错误；同时天然满足触摸 44px 要求。
+   2. 认证页背景允许一层极淡的品牌光晕与点阵纹理 —— 这是产品唯一需要
+      品牌表达的表面。除此之外仍遵守 DESIGN.md「无渐变、无装饰」的约束：
+      光晕透明度仅 10%，不构成视觉主体。
+   3. 单列表单列宽 400px，符合「一行不超过 ~90 字符」的阅读宽度原则。
+   4. 深色主题下卡片不投影，改用 1px 描边表达层次（与 DESIGN.md 6.1 一致）。
+   ========================================================================== */
+
+/* ---------- 骨架：整幅背景 + 居中内容 ---------- */
+.auth{
+  position:relative;
+  min-height:100vh;
+  display:flex;align-items:center;justify-content:center;
+  padding:var(--cf-space-10) var(--cf-space-6);
+  background-color:var(--cf-auth-bg);
+  overflow-x:hidden;
+}
+/* 点阵纹理 */
+.auth::before{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background-image:radial-gradient(var(--cf-auth-dot) 1px, transparent 1px);
+  background-size:22px 22px;
+}
+/* 顶部品牌光晕：极低透明度，只做柔和底 */
+.auth::after{
+  content:"";position:absolute;left:50%;top:0;pointer-events:none;
+  width:min(1040px,130vw);height:560px;
+  transform:translate(-50%,-34%);
+  background:radial-gradient(closest-side, var(--cf-auth-glow), transparent 100%);
+}
+.auth__main{
+  position:relative;z-index:1;
+  width:100%;max-width:400px;
+  display:flex;flex-direction:column;gap:var(--cf-space-5);
+}
+.auth__mark{
+  display:flex;align-items:center;justify-content:center;gap:var(--cf-space-2);
+  font-size:18px;font-weight:600;line-height:1.4;color:var(--cf-text-primary);
+}
+.auth__mark svg{width:26px;height:26px;flex:none;color:var(--cf-primary)}
+.auth__foot{
+  margin:0;text-align:center;
+  font-size:12px;line-height:1.6;color:var(--cf-text-tertiary);
+}
+
+/* 切换登录/注册方式时用 hidden 隐藏面板，必须压过 .auth-form 的 display:flex */
+.auth [hidden]{display:none !important}
+
+/* ---------- 卡片 ---------- */
+.auth-card{
+  background:var(--cf-auth-card);
+  border:1px solid var(--cf-auth-card-border);
+  border-radius:var(--cf-radius-xl);
+  box-shadow:var(--cf-auth-card-shadow);
+  padding:var(--cf-space-8);
+}
+
+.auth-head{margin-bottom:var(--cf-space-6)}
+.auth-head h2{margin:0 0 var(--cf-space-1);font-size:24px;font-weight:600;line-height:1.35}
+.auth-head p{margin:0;font-size:14px;line-height:1.6;color:var(--cf-text-tertiary)}
+
+/* ---------- 登录方式切换 ---------- */
+.auth-tabs{
+  display:flex;gap:var(--cf-space-5);
+  margin-bottom:var(--cf-space-6);
+  border-bottom:1px solid var(--cf-hairline);
+}
+.auth-tabs button{
+  position:relative;height:40px;padding:0 2px;
+  font-size:14px;color:var(--cf-text-secondary);
+  transition:color var(--cf-duration-instant) var(--cf-ease-standard);
+}
+.auth-tabs button:hover{color:var(--cf-text-primary)}
+.auth-tabs button.is-active{color:var(--cf-primary);font-weight:500}
+.auth-tabs button.is-active::after{
+  content:"";position:absolute;left:0;right:0;bottom:-1px;height:2px;
+  background:var(--cf-primary);border-radius:1px;
+}
+
+/* ---------- 表单字段 ---------- */
+.auth-form{display:flex;flex-direction:column;gap:var(--cf-space-4)}
+.field{display:flex;flex-direction:column;gap:6px}
+.field__label{font-size:13px;line-height:1.5;color:var(--cf-text-secondary)}
+.field__control{
+  display:flex;align-items:center;gap:var(--cf-space-2);
+  height:44px;padding:0 var(--cf-space-3);
+  background:var(--cf-surface-1);
+  border:1px solid var(--cf-hairline-strong);
+  border-radius:var(--cf-radius-sm);
+  transition:border-color var(--cf-duration-instant) var(--cf-ease-standard),
+             box-shadow var(--cf-duration-instant) var(--cf-ease-standard);
+}
+.field__control:focus-within{border-color:var(--cf-primary);box-shadow:0 0 0 3px var(--cf-focus-ring)}
+.field__control input{
+  flex:1;min-width:0;border:0;background:none;outline:none;
+  font:inherit;font-size:14px;line-height:1.5;color:var(--cf-text-primary);
+}
+.field__control input::placeholder{color:var(--cf-text-disabled)}
+.field__control input:disabled{color:var(--cf-text-disabled);cursor:not-allowed}
+.field__icon{display:flex;flex:none;color:var(--cf-text-tertiary)}
+.field__icon svg{width:18px;height:18px}
+.field__suffix{flex:none;display:flex;align-items:center;gap:var(--cf-space-1)}
+
+/* 带按钮的后缀（发送验证码 / 显示密码） */
+.field__btn{
+  height:28px;padding:0 var(--cf-space-2);border-radius:var(--cf-radius-xs);
+  font-size:13px;color:var(--cf-primary);white-space:nowrap;
+  transition:background-color var(--cf-duration-instant) var(--cf-ease-standard);
+}
+.field__btn:hover{background:var(--cf-primary-subtle)}
+.field__btn:disabled{color:var(--cf-text-disabled);cursor:not-allowed;background:none}
+.field__eye{
+  display:flex;align-items:center;justify-content:center;width:28px;height:28px;
+  border-radius:var(--cf-radius-xs);color:var(--cf-text-tertiary);
+  transition:background-color var(--cf-duration-instant) var(--cf-ease-standard),
+             color var(--cf-duration-instant) var(--cf-ease-standard);
+}
+.field__eye:hover{background:var(--cf-surface-2);color:var(--cf-text-primary)}
+.field__eye svg{width:18px;height:18px}
+
+/* 图形验证码 */
+.captcha{
+  display:flex;align-items:center;justify-content:center;gap:1px;
+  width:88px;height:32px;flex:none;overflow:hidden;
+  background:var(--cf-surface-2);
+  border:1px solid var(--cf-hairline);
+  border-radius:var(--cf-radius-xs);
+  font-family:var(--cf-font-mono);
+  font-size:17px;font-weight:500;letter-spacing:2px;
+  color:var(--cf-text-primary);
+  cursor:pointer;user-select:none;
+  transition:border-color var(--cf-duration-instant) var(--cf-ease-standard);
+}
+.captcha span{display:inline-block}
+.captcha:hover{border-color:var(--cf-hairline-strong)}
+
+.field__hint{font-size:12px;line-height:1.5;color:var(--cf-text-tertiary)}
+.field__error{
+  display:none;align-items:center;gap:var(--cf-space-1);
+  font-size:12px;line-height:1.5;color:var(--cf-danger-text);
+}
+.field__error svg{width:14px;height:14px;flex:none}
+.field.has-error .field__control{border-color:var(--cf-danger-indicator)}
+.field.has-error .field__control:focus-within{box-shadow:0 0 0 3px var(--cf-danger-surface)}
+.field.has-error .field__error{display:flex}
+
+/* ---------- 密码强度 ---------- */
+.pw-meter{display:flex;flex-direction:column;gap:6px}
+.pw-meter__bars{display:flex;gap:4px}
+.pw-meter__bars i{
+  flex:1;height:4px;border-radius:var(--cf-radius-pill);
+  background:var(--cf-surface-3);
+  transition:background-color var(--cf-duration-fast) var(--cf-ease-standard);
+}
+.pw-meter__text{font-size:12px;line-height:1.5;color:var(--cf-text-tertiary)}
+.pw-meter[data-level="1"] .pw-meter__bars i:nth-child(1){background:var(--cf-danger-indicator)}
+.pw-meter[data-level="2"] .pw-meter__bars i:nth-child(-n+2){background:var(--cf-warning-indicator)}
+.pw-meter[data-level="3"] .pw-meter__bars i{background:var(--cf-success-indicator)}
+.pw-meter[data-level="1"] .pw-meter__text{color:var(--cf-danger-text)}
+.pw-meter[data-level="2"] .pw-meter__text{color:var(--cf-warning-text)}
+.pw-meter[data-level="3"] .pw-meter__text{color:var(--cf-success-text)}
+
+/* ---------- 勾选行 / 辅助行 ---------- */
+.check-row{
+  display:flex;align-items:flex-start;gap:var(--cf-space-2);
+  font-size:13px;line-height:1.6;color:var(--cf-text-secondary);
+}
+.check-row input{
+  appearance:none;flex:none;width:16px;height:16px;margin:3px 0 0;
+  border:1px solid var(--cf-hairline-strong);border-radius:var(--cf-radius-xs);
+  background:var(--cf-surface-1);cursor:pointer;position:relative;
+  transition:background-color var(--cf-duration-instant) var(--cf-ease-standard),
+             border-color var(--cf-duration-instant) var(--cf-ease-standard);
+}
+.check-row input:checked{background:var(--cf-primary);border-color:var(--cf-primary)}
+.check-row input:checked::after{
+  content:"";position:absolute;left:4.5px;top:1px;width:4px;height:8px;
+  border:solid #fff;border-width:0 1.5px 1.5px 0;transform:rotate(45deg);
+}
+.check-row input:focus-visible{box-shadow:0 0 0 3px var(--cf-focus-ring)}
+.check-row.has-error{color:var(--cf-danger-text)}
+
+.row-between{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:var(--cf-space-3);flex-wrap:wrap;
+}
+.link-quiet{font-size:13px;color:var(--cf-primary)}
+
+/* ---------- 提交按钮 ---------- */
+.auth-submit{height:44px;font-size:15px}
+
+/* ---------- 分割线 ---------- */
+.auth-divider{
+  display:flex;align-items:center;gap:var(--cf-space-3);
+  margin:var(--cf-space-5) 0;
+  font-size:12px;color:var(--cf-text-tertiary);
+}
+.auth-divider::before,.auth-divider::after{
+  content:"";flex:1;height:1px;background:var(--cf-hairline);
+}
+
+/* ---------- 扫码登录 ---------- */
+.qr-wrap{display:flex;flex-direction:column;align-items:center;gap:var(--cf-space-4);padding:var(--cf-space-4) 0}
+.qr-box{
+  position:relative;width:200px;height:200px;padding:var(--cf-space-3);
+  background:var(--cf-surface-1);
+  border:1px solid var(--cf-hairline);
+  border-radius:var(--cf-radius-md);
+}
+.qr-box svg{width:100%;height:100%;display:block}
+.qr-mask{
+  position:absolute;inset:0;display:none;flex-direction:column;
+  align-items:center;justify-content:center;gap:var(--cf-space-3);
+  background:var(--cf-surface-1);
+  border-radius:var(--cf-radius-md);
+  font-size:13px;color:var(--cf-text-secondary);
+}
+.qr-mask.is-show{display:flex}
+.qr-status{font-size:13px;line-height:1.6;color:var(--cf-text-tertiary);text-align:center;margin:0}
+.qr-status strong{color:var(--cf-text-primary);font-weight:500}
+.qr-status.is-expired strong{color:var(--cf-danger-text)}
+
+/* ---------- 卡片内的页脚 ---------- */
+.auth-foot{
+  margin-top:var(--cf-space-6);padding-top:var(--cf-space-5);
+  border-top:1px solid var(--cf-hairline);
+  font-size:13px;line-height:1.6;color:var(--cf-text-tertiary);text-align:center;
+}
+.auth-foot a{font-weight:500}
+
+/* ---------- 信息卡（组织内开通 / 重置提示） ---------- */
+.info-card{
+  display:flex;gap:var(--cf-space-3);
+  padding:var(--cf-space-4);
+  background:var(--cf-primary-subtle);
+  border-radius:var(--cf-radius-md);
+}
+.info-card svg{width:20px;height:20px;flex:none;color:var(--cf-primary);margin-top:1px}
+.info-card h3{margin:0 0 4px;font-size:14px;font-weight:500;line-height:1.5;color:var(--cf-text-primary)}
+.info-card p{margin:0;font-size:13px;line-height:1.6;color:var(--cf-text-secondary)}
+
+/* ---------- 主题切换 ---------- */
+.auth-theme{
+  position:fixed;top:var(--cf-space-4);right:var(--cf-space-4);
+  z-index:var(--cf-z-dropdown);
+}
+
+/* ---------- 响应式 ---------- */
+@media (max-width:479px){
+  .auth{padding:var(--cf-space-6) var(--cf-space-4)}
+  .auth-card{padding:var(--cf-space-6)}
+  .auth-head h2{font-size:20px}
+  .auth-tabs{gap:var(--cf-space-4)}
+  .auth-tabs button{font-size:13px}
+  .qr-box{width:168px;height:168px}
+  .field__control{height:42px}
+  .auth-submit{height:42px}
+}
+@media (max-height:760px){
+  .auth{align-items:flex-start;padding-top:var(--cf-space-8)}
+}

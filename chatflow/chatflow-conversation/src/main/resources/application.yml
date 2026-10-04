@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: chatflow-conversation
+
+chatflow:
+  env: dev
+
+server:
+  port: 8084

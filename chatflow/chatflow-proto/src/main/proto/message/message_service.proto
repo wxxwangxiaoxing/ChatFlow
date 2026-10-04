@@ -1,0 +1,46 @@
+syntax = "proto3";
+
+package chatflow.message;
+
+import "common/common.proto";
+
+option java_multiple_files = true;
+option java_package = "com.chatflow.proto.message";
+
+// 消息服务对外契约：Gateway 经 gRPC 调用（工程结构文档 34.1）。
+// ACK 语义见工程结构文档 35：四项条件齐备（幂等预占/风控通过/Seq 落库/Kafka acks=all）才返回成功。
+service MessageRpc {
+  rpc Send (SendMessageCommand) returns (SendMessageAck);
+  rpc QueryHistory (QueryHistoryRequest) returns (QueryHistoryResponse);
+}
+
+message SendMessageCommand {
+  string client_msg_id = 1;      // 幂等键（端上生成，重试不变）
+  string conversation_id = 2;
+  chatflow.common.ConvType conv_type = 3;
+  int32 msg_type = 4;
+  string biz_type = 5;
+  bytes content = 6;
+  int64 client_sent_at_ms = 7;
+}
+
+message SendMessageAck {
+  string code = 1;               // "0" 成功；非 0 见统一错误码分段
+  string message = 2;
+  string client_msg_id = 3;
+  string server_msg_id = 4;
+  string conversation_id = 5;
+  int64 seq = 6;
+}
+
+// 漫游历史：seq 游标翻页，禁止 OFFSET 深分页（工程结构文档 31.1）
+message QueryHistoryRequest {
+  string conversation_id = 1;
+  int64 from_seq = 2;            // 游标起点
+  int32 limit = 3;
+  bool forward = 4;              // true 向新方向（seq 递增），false 向旧方向
+}
+
+message QueryHistoryResponse {
+  repeated chatflow.common.MsgEntity messages = 1;
+}

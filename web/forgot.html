@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>找回密码 · ChatFlow</title>
+<link rel="stylesheet" href="styles/tokens.css">
+<link rel="stylesheet" href="styles/base.css">
+<link rel="stylesheet" href="styles/auth.css">
+</head>
+<body>
+
+<button class="cf-icon-btn auth-theme" data-theme-toggle title="切换主题"></button>
+
+<div class="auth">
+
+
+  <!-- ================= 表单 ================= -->
+  <div class="auth__main">
+
+    <div class="auth__mark">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 18V9.5L12 4l8 5.5V18a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/><path d="M9.5 20v-5.5h5V20"/>
+      </svg>
+      <span>ChatFlow</span>
+    </div>
+
+    <div class="auth-card">
+
+
+      <div class="auth-head">
+        <h2>找回密码</h2>
+        <p>验证手机号后设置新密码</p>
+      </div>
+
+      <form class="auth-form" data-auth-form="reset" novalidate>
+        <div class="field">
+          <label class="field__label" for="fpPhone">注册手机号</label>
+          <div class="field__control">
+            <span class="field__icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M10.5 18.5h3"/></svg>
+            </span>
+            <input id="fpPhone" name="phone" type="tel" inputmode="numeric" autocomplete="tel"
+                   placeholder="请输入注册时使用的手机号" data-rule="phone">
+          </div>
+          <div class="field__error" role="alert"></div>
+        </div>
+
+        <div class="field">
+          <label class="field__label" for="fpCaptcha">图形验证码</label>
+          <div class="field__control">
+            <span class="field__icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5.5c0 4.2-2.9 8-7 9.5-4.1-1.5-7-5.3-7-9.5V6z"/></svg>
+            </span>
+            <input id="fpCaptcha" name="captcha" type="text" maxlength="4"
+                   placeholder="不区分大小写" data-rule="captcha" data-captcha="#fpCaptchaBox">
+            <span class="field__suffix">
+              <button type="button" class="captcha" id="fpCaptchaBox" data-captcha-refresh
+                      title="点击刷新" aria-label="图形验证码，点击刷新"></button>
+            </span>
+          </div>
+          <div class="field__error" role="alert"></div>
+        </div>
+
+        <div class="field">
+          <label class="field__label" for="fpCode">短信验证码</label>
+          <div class="field__control">
+            <span class="field__icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3.5 6.5l8.5 6 8.5-6"/></svg>
+            </span>
+            <input id="fpCode" name="code" type="text" inputmode="numeric" maxlength="6"
+                   placeholder="6 位数字" data-rule="code">
+            <span class="field__suffix">
+              <button type="button" class="field__btn" data-send-code="#fpPhone" data-send-label="手机号">获取验证码</button>
+            </span>
+          </div>
+          <div class="field__error" role="alert"></div>
+        </div>
+
+        <div class="field">
+          <label class="field__label" for="fpPassword">新密码</label>
+          <div class="field__control">
+            <span class="field__icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="10.5" rx="2"/><path d="M8 10V7.5a4 4 0 0 1 8 0V10"/></svg>
+            </span>
+            <input id="fpPassword" name="password" type="password" autocomplete="new-password"
+                   placeholder="至少 8 位，含字母和数字" data-rule="password" data-pw-meter="#fpPwMeter">
+            <span class="field__suffix">
+              <button type="button" class="field__eye" data-toggle-pw="#fpPassword" aria-label="显示密码"></button>
+            </span>
+          </div>
+          <div class="pw-meter" id="fpPwMeter" data-level="0">
+            <div class="pw-meter__bars"><i></i><i></i><i></i></div>
+            <div class="pw-meter__text">至少 8 位，需包含字母和数字</div>
+          </div>
+          <div class="field__error" role="alert"></div>
+        </div>
+
+        <div class="field">
+          <label class="field__label" for="fpPassword2">确认新密码</label>
+          <div class="field__control">
+            <span class="field__icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="10.5" rx="2"/><path d="M8 10V7.5a4 4 0 0 1 8 0V10"/></svg>
+            </span>
+            <input id="fpPassword2" name="password2" type="password" autocomplete="new-password"
+                   placeholder="再次输入新密码" data-rule="password" data-match="#fpPassword">
+            <span class="field__suffix">
+              <button type="button" class="field__eye" data-toggle-pw="#fpPassword2" aria-label="显示密码"></button>
+            </span>
+          </div>
+          <div class="field__error" role="alert"></div>
+        </div>
+
+        <div class="info-card">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5.5c0 4.2-2.9 8-7 9.5-4.1-1.5-7-5.3-7-9.5V6z"/><path d="M9.2 12l2 2 3.6-3.8"/></svg>
+          <div>
+            <h3>重置后会发生什么</h3>
+            <p>所有设备上的登录状态会立即失效，需要用新密码重新登录。此操作会写入审计日志。</p>
+          </div>
+        </div>
+
+        <button type="submit" class="cf-btn cf-btn--primary cf-btn--block auth-submit">重置密码</button>
+      </form>
+
+      <div class="auth-foot">
+        想起密码了？<a href="login.html">返回登录</a>　·　<a href="register.html">注册新账号</a>
+      </div>
+
+    </div>
+    <p class="auth__foot">V1.0.0 · 私有化部署 · 数据不出企业内网</p>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+<script src="scripts/auth.js"></script>
+</body>
+</html>

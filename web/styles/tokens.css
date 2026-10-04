@@ -1,0 +1,170 @@
+/* ==========================================================================
+   ChatFlow 设计 Token —— 唯一来源
+   --------------------------------------------------------------------------
+   由 DESIGN.md 的三层 token 架构落地：
+     ① 基础层 Primitive   --cf-blue-500 / --cf-gray-200 / --cf-space-4
+     ② 语义层 Semantic    --cf-primary / --cf-text-secondary / --cf-hairline
+   组件层（各页面自己的 CSS）只允许引用语义层。
+   深色主题只覆盖语义层，不改基础层。
+   本文件被 index.html 与认证页共同引用，请勿在任何页面内重复定义。
+   ========================================================================== */
+
+/* ==========================================================================
+   ① 基础层 Token（Primitive）—— 只被语义层引用
+   ========================================================================== */
+:root{
+  --cf-blue-50:#EBF4FE;  --cf-blue-100:#D3E7FC; --cf-blue-200:#A8CFF8;
+  --cf-blue-300:#74B0F2; --cf-blue-400:#3D8EE8; --cf-blue-500:#0B6BCB;
+  --cf-blue-600:#0A5CAE; --cf-blue-700:#094C8F; --cf-blue-800:#083C71;
+  --cf-blue-900:#062B51;
+
+  --cf-gray-0:#FFFFFF;  --cf-gray-25:#FCFCFD;  --cf-gray-50:#F8F9FB;
+  --cf-gray-100:#F1F3F7; --cf-gray-200:#E4E7EC; --cf-gray-300:#D0D5DD;
+  --cf-gray-400:#98A2B3; --cf-gray-500:#667085; --cf-gray-600:#475467;
+  --cf-gray-700:#344054; --cf-gray-800:#1D2939; --cf-gray-900:#101828;
+
+  --cf-success-indicator:#12B76A; --cf-success-text:#027A48; --cf-success-surface:#ECFDF3;
+  --cf-warning-indicator:#F79009; --cf-warning-text:#B54708; --cf-warning-surface:#FFFAEB;
+  --cf-danger-indicator:#F04438;  --cf-danger-text:#B42318;  --cf-danger-surface:#FEF3F2;
+  --cf-attention:#F04438;
+
+  --cf-space-1:4px;  --cf-space-2:8px;  --cf-space-3:12px; --cf-space-4:16px;
+  --cf-space-5:20px; --cf-space-6:24px; --cf-space-8:32px; --cf-space-10:40px;
+  --cf-space-12:48px; --cf-space-16:64px;
+
+  --cf-radius-xs:4px;  --cf-radius-sm:6px;  --cf-radius-md:8px;
+  --cf-radius-lg:12px; --cf-radius-xl:16px; --cf-radius-xxl:20px;
+  --cf-radius-pill:999px;
+
+  --cf-shadow-xs:0 1px 2px rgba(16,24,40,.05);
+  --cf-shadow-sm:0 1px 3px rgba(16,24,40,.08), 0 1px 2px rgba(16,24,40,.04);
+  --cf-shadow-md:0 4px 8px -2px rgba(16,24,40,.08), 0 2px 4px -2px rgba(16,24,40,.04);
+  --cf-shadow-lg:0 12px 16px -4px rgba(16,24,40,.08), 0 4px 6px -2px rgba(16,24,40,.03);
+  --cf-shadow-xl:0 20px 24px -4px rgba(16,24,40,.08), 0 8px 8px -4px rgba(16,24,40,.03);
+  --cf-shadow-overlay:0 24px 48px -12px rgba(16,24,40,.18);
+
+  --cf-z-sticky:100; --cf-z-dropdown:200; --cf-z-overlay:300;
+  --cf-z-drag:350;   --cf-z-modal:400;    --cf-z-toast:500; --cf-z-tooltip:600;
+
+  --cf-duration-instant:100ms; --cf-duration-fast:150ms; --cf-duration-base:200ms;
+  --cf-duration-slow:300ms;    --cf-duration-slower:400ms;
+  --cf-ease-standard:cubic-bezier(.2,0,0,1);
+  --cf-ease-decelerate:cubic-bezier(0,0,.2,1);
+  --cf-ease-accelerate:cubic-bezier(.4,0,1,1);
+  --cf-ease-emphasized:cubic-bezier(.05,.7,.1,1);
+
+  --cf-font-sans:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans SC","Source Han Sans SC",sans-serif;
+  --cf-font-mono:"JetBrains Mono",SFMono-Regular,Consolas,"Liberation Mono",monospace;
+}
+
+/* ==========================================================================
+   ② 语义层 Token（Semantic）—— 组件只引用这一层
+   ========================================================================== */
+:root{
+  --cf-canvas:var(--cf-gray-50);
+  --cf-surface-1:var(--cf-gray-0);
+  --cf-surface-2:var(--cf-gray-100);
+  --cf-surface-3:var(--cf-gray-200);
+  --cf-surface-inverse:var(--cf-gray-900);
+  --cf-hairline:var(--cf-gray-200);
+  --cf-hairline-strong:var(--cf-gray-300);
+
+  --cf-text-primary:var(--cf-gray-900);
+  --cf-text-secondary:var(--cf-gray-600);
+  --cf-text-tertiary:var(--cf-gray-500);
+  --cf-text-disabled:var(--cf-gray-400);
+  --cf-text-on-brand:#FFFFFF;
+
+  --cf-primary:var(--cf-blue-500);
+  --cf-primary-hover:var(--cf-blue-600);
+  --cf-primary-active:var(--cf-blue-700);
+  --cf-primary-subtle:var(--cf-blue-50);
+  --cf-focus-ring:rgba(11,107,203,.28);
+
+  --cf-bubble-self-bg:var(--cf-blue-500);
+  --cf-bubble-self-text:#FFFFFF;
+  --cf-bubble-other-bg:var(--cf-gray-0);
+  --cf-bubble-other-text:var(--cf-gray-900);
+  --cf-bubble-quote-bg:var(--cf-blue-50);
+  --cf-conv-item-hover:var(--cf-gray-100);
+  --cf-conv-item-active:var(--cf-blue-50);
+  --cf-presence-online:var(--cf-success-indicator);
+  --cf-online-dot-ring:var(--cf-surface-1);
+  --cf-presence-off:var(--cf-gray-400);
+  --cf-scrollbar-thumb:var(--cf-gray-300);
+  --cf-scrollbar-thumb-hover:var(--cf-gray-400);
+  --cf-badge-muted-bg:var(--cf-gray-400);
+
+  /* 轻反馈（Toast） */
+  --cf-toast-bg:var(--cf-surface-inverse);
+  --cf-toast-fg:var(--cf-canvas);
+
+  /* 认证页表面（登录/注册/找回）—— 整幅柔和底 + 居中卡片 */
+  --cf-auth-bg:var(--cf-gray-50);
+  --cf-auth-dot:rgba(16,24,40,.055);
+  --cf-auth-glow:rgba(11,107,203,.10);
+  --cf-auth-card:var(--cf-surface-1);
+  --cf-auth-card-border:var(--cf-hairline);
+  --cf-auth-card-shadow:var(--cf-shadow-xl);
+
+  --cf-media-placeholder-from:var(--cf-gray-200);
+  --cf-media-placeholder-to:var(--cf-gray-300);
+  --cf-media-placeholder-fg:var(--cf-text-tertiary);
+  --cf-thumb-from:var(--cf-blue-100);
+  --cf-thumb-to:var(--cf-blue-200);
+  --cf-thumb-fg:var(--cf-blue-700);
+  --cf-scrim:rgba(16,24,40,.45);
+}
+
+[data-theme="dark"]{
+  --cf-canvas:#0C111D;
+  --cf-surface-1:#161B26;
+  --cf-surface-2:#1F242F;
+  --cf-surface-3:#2A303C;
+  --cf-surface-inverse:#F5F6F7;
+  --cf-hairline:#2A303C;
+  --cf-hairline-strong:#344054;
+
+  --cf-text-primary:#F5F6F7;
+  --cf-text-secondary:#98A2B3;
+  --cf-text-tertiary:#667085;
+  --cf-text-disabled:#475467;
+
+  --cf-primary:var(--cf-blue-400);
+  --cf-primary-hover:var(--cf-blue-300);
+  --cf-primary-active:var(--cf-blue-200);
+  --cf-primary-subtle:#0A1F33;
+  --cf-focus-ring:rgba(61,142,232,.32);
+
+  --cf-bubble-self-bg:#0A5CAE;
+  --cf-bubble-other-bg:#1F242F;
+  --cf-bubble-other-text:#F5F6F7;
+  --cf-bubble-quote-bg:#1B2837;
+  --cf-conv-item-hover:#1F242F;
+  --cf-conv-item-active:#16304A;
+
+  --cf-success-surface:#0C2A1E; --cf-warning-surface:#2A1F08; --cf-danger-surface:#2A1414;
+  --cf-success-text:#5DCAA5;    --cf-warning-text:#F5C97B;  --cf-danger-text:#F09595;
+  --cf-online-dot-ring:var(--cf-surface-1);
+  --cf-presence-off:var(--cf-gray-600);
+  --cf-scrollbar-thumb:var(--cf-surface-3);
+  --cf-scrollbar-thumb-hover:var(--cf-gray-700);
+  --cf-badge-muted-bg:var(--cf-gray-600);
+  --cf-toast-bg:var(--cf-surface-3);
+  --cf-toast-fg:var(--cf-text-primary);
+
+  --cf-auth-bg:#0C111D;
+  --cf-auth-dot:rgba(255,255,255,.05);
+  --cf-auth-glow:rgba(61,142,232,.14);
+  --cf-auth-card:var(--cf-surface-1);
+  --cf-auth-card-border:var(--cf-surface-3);
+  --cf-auth-card-shadow:none;   /* 深色下阴影不可见，改用 1px 描边表达层次 */
+
+  --cf-media-placeholder-from:#232A36;
+  --cf-media-placeholder-to:#2A303C;
+  --cf-media-placeholder-fg:#667085;
+  --cf-thumb-from:#16304A;
+  --cf-thumb-to:#1B3D5E;
+  --cf-thumb-fg:var(--cf-blue-300);
+  --cf-scrim:rgba(0,0,0,.6);
+}

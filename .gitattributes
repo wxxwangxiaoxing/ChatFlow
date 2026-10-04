@@ -1,0 +1,50 @@
+# =============================================================================
+#  ChatFlow — 行尾与文件类型规约
+# -----------------------------------------------------------------------------
+#  仓库内统一以 LF 存储，避免 Windows / Linux / CI 之间产生「整文件重写」型 diff。
+#
+#  当前工作区实况（首次提交时）：前端 11 个文件为 CRLF，文档 / SQL / Java 为 LF。
+#  本文件不会改写现有工作区文件：clean 过滤器在 git add 时把 CRLF 归一为 LF 存储，
+#  因此首次提交后 git status 仍为干净；仅在下一次 checkout / clone 时工作区才统一为 LF。
+# =============================================================================
+
+# 默认：自动识别文本，仓库内统一 LF
+* text=auto eol=lf
+
+# ---------- 明确按文本处理并强制 LF ----------
+*.java       text eol=lf
+*.xml        text eol=lf
+*.yml        text eol=lf
+*.yaml       text eol=lf
+*.properties text eol=lf
+*.proto      text eol=lf
+*.sql        text eol=lf
+*.md         text eol=lf diff
+*.html       text eol=lf
+*.css        text eol=lf
+*.js         text eol=lf
+*.json       text eol=lf
+*.svg        text eol=lf
+
+# ---------- Windows 脚本必须保持 CRLF ----------
+*.bat        text eol=crlf
+*.cmd        text eol=crlf
+*.ps1        text eol=crlf
+
+# ---------- 二进制：禁止换行转换与文本 diff ----------
+*.png   binary
+*.jpg   binary
+*.jpeg  binary
+*.gif   binary
+*.webp  binary
+*.ico   binary
+*.pdf   binary
+*.zip   binary
+*.gz    binary
+*.7z    binary
+*.jar   binary
+*.war   binary
+*.woff  binary
+*.woff2 binary
+*.ttf   binary
+*.otf   binary

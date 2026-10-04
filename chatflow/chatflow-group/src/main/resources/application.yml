@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: chatflow-group
+
+chatflow:
+  env: dev
+
+server:
+  port: 8087
+
+# 读写扩散阈值（ADR-003）：成员数 ≤ 该值走写扩散，否则读扩散
+chatflow-group:
+  fanout:
+    write-diffusion-max-members: 200

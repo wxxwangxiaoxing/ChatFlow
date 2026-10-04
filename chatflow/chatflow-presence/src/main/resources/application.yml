@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: chatflow-presence
+
+chatflow:
+  env: dev
+
+server:
+  port: 8088
+
+# Presence 参数（架构文档 9.2）
+chatflow-presence:
+  redis-ttl-seconds: 90
+  batch-report-interval-seconds: 5
+  broadcast-debounce-ms: 200
+  db-flush-window-seconds: 10
